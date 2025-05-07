@@ -17,9 +17,8 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
       );
       emit(LoginSuccessState(token: token));
-    } catch (e) {
-      emit(LoginFailureState(errorMessage: e.toString()));
-      rethrow;
+    } catch (_) {
+      emit(LoginFailureState(errorMessage: 'Login failed'));
     }
   }
 
