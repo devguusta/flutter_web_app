@@ -17,7 +17,6 @@ class CustomDio extends DioMixin {
     );
 
     options = BaseOptions(
-      baseUrl: 'https://api.example.com',
       connectTimeout: Duration(
         milliseconds: 3000,
       ),
