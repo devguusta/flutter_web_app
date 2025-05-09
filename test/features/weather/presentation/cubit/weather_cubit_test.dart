@@ -7,63 +7,13 @@ import 'package:flutter_web_app/features/weather/presentation/cubit/weather_stat
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../mocks/mock_class.dart';
+import '../../../../mocks/weather_mock.dart';
 
 void main() {
   final weatherRepository = WeatherRepositoryMock();
   final addressRepository = AddressRepositoryMock();
   final locationRepository = LocationRepositoryMock();
-  final location = LocationEntity(latitude: 30, longitude: 30);
-  final current = WeatherDataEntity(
-    temperature: 292.55,
-    pressure: 1014,
-    humidity: 89,
-    windSpeed: 3.13,
-    windDegrees: 93,
-    weather: const Weather(
-      title: 'Clouds',
-      icon: "04d",
-    ),
-  );
 
-  final hourly = [
-    WeatherDataEntity(
-      temperature: 292.01,
-      pressure: 1014,
-      humidity: 91,
-      windSpeed: 2.58,
-      windDegrees: 86,
-      weather: const Weather(
-        title: "Clouds",
-        icon: "04n",
-      ),
-    ),
-  ];
-
-  final daily = [
-    WeatherDailyDataEntity(
-      date: DateTime.fromMillisecondsSinceEpoch(1684951200 * 1000),
-      minimumTemperature: 290.69,
-      maximumTemperature: 300.35,
-      weather: const Weather(
-        title: "Rain",
-        icon: "10d",
-      ),
-    ),
-  ];
-  final address = AddressEntity(city: 'NOVA IGUACU', state: 'RJ');
-  final weatherStatusReport =
-      WeatherStatusReportEntity(current: current, hourly: hourly, daily: daily);
-
-  final gpsDisabledException = GpsDisabledException();
-
-  final LocationPermissionDeniedException locationPermissionDeniedException =
-      LocationPermissionDeniedException();
-
-  final LocationPermitionDenieForeverException
-      locationPermitionDenieForeverException =
-      LocationPermitionDenieForeverException();
-
-  final unknowException = LocationUnknownException();
   tearDown(() {
     reset(weatherRepository);
     reset(addressRepository);
@@ -93,8 +43,8 @@ void main() {
       setUp: successMock,
       act: (cubit) => cubit.getWeather(),
       expect: () => [
-        WeatherLoading(),
-        WeatherLoaded(weatherReport: weatherStatusReport, address: address)
+        WeatherLoadingState(),
+        WeatherLoadedState(weatherReport: weatherStatusReport, address: address)
       ],
     );
   });
@@ -114,7 +64,7 @@ void main() {
             .thenThrow(Exception());
       },
       act: (cubit) => cubit.getWeather(),
-      expect: () => [WeatherLoading(), WeatherFailure()],
+      expect: () => [WeatherLoadingState(), WeatherFailureState()],
     );
     blocTest<WeatherCubit, WeatherState>(
       'Should emit WeatherFailure when failure to get weather status report ',
@@ -131,7 +81,7 @@ void main() {
             .thenThrow(Exception());
       },
       act: (cubit) => cubit.getWeather(),
-      expect: () => [WeatherLoading(), WeatherFailure()],
+      expect: () => [WeatherLoadingState(), WeatherFailureState()],
     );
   });
 
@@ -152,8 +102,8 @@ void main() {
       },
       act: (cubit) => cubit.getWeather(),
       expect: () => [
-        WeatherLoading(),
-        WeatherLocationFailure(error: gpsDisabledException)
+        WeatherLoadingState(),
+        WeatherLocationFailureState(error: gpsDisabledException)
       ],
     );
     blocTest<WeatherCubit, WeatherState>(
@@ -168,8 +118,8 @@ void main() {
       },
       act: (cubit) => cubit.getWeather(),
       expect: () => [
-        WeatherLoading(),
-        WeatherLocationFailure(error: locationPermissionDeniedException)
+        WeatherLoadingState(),
+        WeatherLocationFailureState(error: locationPermissionDeniedException)
       ],
     );
     blocTest<WeatherCubit, WeatherState>(
@@ -184,8 +134,9 @@ void main() {
       },
       act: (cubit) => cubit.getWeather(),
       expect: () => [
-        WeatherLoading(),
-        WeatherLocationFailure(error: locationPermitionDenieForeverException)
+        WeatherLoadingState(),
+        WeatherLocationFailureState(
+            error: locationPermitionDenieForeverException)
       ],
     );
 
@@ -200,8 +151,10 @@ void main() {
         errorLocationMock(unknowException);
       },
       act: (cubit) => cubit.getWeather(),
-      expect: () =>
-          [WeatherLoading(), WeatherLocationFailure(error: unknowException)],
+      expect: () => [
+        WeatherLoadingState(),
+        WeatherLocationFailureState(error: unknowException)
+      ],
     );
   });
 }

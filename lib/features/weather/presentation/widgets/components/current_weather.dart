@@ -51,9 +51,11 @@ class CurrentWeather extends StatelessWidget {
                     fontSize: 28,
                   ),
                 ),
-                WeatherIcon(
-                  size: 64,
-                  icon: current.weather.icon,
+                Flexible(
+                  child: WeatherIcon(
+                    size: 64,
+                    icon: current.weather.icon,
+                  ),
                 ),
               ],
             ),

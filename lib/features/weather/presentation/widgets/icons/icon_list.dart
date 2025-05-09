@@ -12,7 +12,7 @@ class IconListItem extends StatelessWidget {
       children: [
         icon,
         const SizedBox(width: 4),
-        Text(label),
+        Flexible(child: Text(label)),
       ],
     );
   }
