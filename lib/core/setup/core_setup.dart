@@ -1,6 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_web_app/core/getit/getit_instance.dart';
-import 'package:flutter_web_app/core/http/dio/custom_dio.dart';
 import 'package:flutter_web_app/core/http/http_client.dart';
 import 'package:flutter_web_app/core/http/http_client_implementation.dart';
 import 'package:flutter_web_app/core/remote_config/firebase_remote_config_impl.dart';
@@ -21,9 +20,7 @@ sealed class CoreSetup {
 
     /// HTTP CLIENT
     getIt.registerSingleton<HttpClient>(
-      HttpClientImplementation(
-        CustomDio(),
-      ),
+      HttpClientImplementation(),
     );
   }
 }
