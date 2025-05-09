@@ -57,6 +57,7 @@ class FirebaseRemoteConfigImpl implements RemoteConfig {
   @override
   Map<String, dynamic> getJson({required String key}) {
     final result = _remoteConfig.getValue(key);
+    if (result is Map<String, dynamic>) {}
     return jsonDecode(result.asString());
   }
 }
