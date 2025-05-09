@@ -24,7 +24,6 @@ void main() {
 
   group('WeatherDailyList - UI rendering', () {
     testWidgets('Should render all days in the list correctly', (tester) async {
-      // Create mock daily data with multiple items
       final mockDailyMultiple = [
         ...daily,
         WeatherDailyDataEntity(
@@ -56,25 +55,21 @@ void main() {
           ));
       await tester.pumpAndSettle();
 
-      // Check for all formatted dates
       for (final day in mockDailyMultiple) {
         final formattedDay = DateFormat('EEEE').format(day.date);
         expect(find.text(formattedDay), findsOneWidget);
       }
 
-      // Check for all formatted temperatures
       for (final day in mockDailyMultiple) {
         final maxTemp = day.maximumTemperature.floor();
         final minTemp = day.minimumTemperature.floor();
         expect(find.text('$maxTemp/$minTemp°C'), findsOneWidget);
       }
 
-      // Check for all weather titles
       expect(find.text('Rain'), findsOneWidget);
       expect(find.text('Clouds'), findsOneWidget);
       expect(find.text('Clear'), findsOneWidget);
 
-      // Check for weather icons
       expect(find.byType(WeatherIcon), findsNWidgets(mockDailyMultiple.length));
     });
 
@@ -82,14 +77,14 @@ void main() {
       final edgeCaseData = [
         WeatherDailyDataEntity(
           date: DateTime.now(),
-          maximumTemperature: 30.9, // Should show as 30
-          minimumTemperature: 20.9, // Should show as 20
+          maximumTemperature: 30.9,
+          minimumTemperature: 20.9,
           weather: current.weather,
         ),
         WeatherDailyDataEntity(
           date: DateTime.now().add(const Duration(days: 1)),
-          maximumTemperature: -5.3, // Should show as -5
-          minimumTemperature: -10.7, // Should show as -10
+          maximumTemperature: -5.3,
+          minimumTemperature: -10.7,
           weather: const Weather(
             title: 'Snow',
             icon: '13d',
@@ -120,7 +115,6 @@ void main() {
           ));
       await tester.pumpAndSettle();
 
-      // No elements should be found
       expect(find.byType(Row), findsNothing);
       expect(find.byType(WeatherIcon), findsNothing);
     });
@@ -138,13 +132,10 @@ void main() {
           ));
       await tester.pumpAndSettle();
 
-      // Find all expanded widgets
       final expandedWidgets = find.byType(Expanded);
 
-      // Should have 3 expanded widgets per row (1 day × 3 expanded)
       expect(expandedWidgets, findsNWidgets(daily.length * 3));
 
-      // Check the text alignment of the weather title (should be end-aligned)
       final weatherTextWidgets = tester
           .widgetList<Text>(
             find.text('Rain'),
@@ -156,7 +147,6 @@ void main() {
 
     testWidgets('Should have proper spacing between list items',
         (tester) async {
-      // Create a list with at least 2 items to test separators
       final mockMultipleDaily = [
         ...daily,
         WeatherDailyDataEntity(
@@ -176,13 +166,10 @@ void main() {
           ));
       await tester.pumpAndSettle();
 
-      // Find the separator widgets
       final separators = find.byType(SizedBox);
 
-      // Should have separators between each item
       expect(separators, findsNWidgets(mockMultipleDaily.length - 1));
 
-      // Check the height of the separators
       final sizedBoxes = tester.widgetList<SizedBox>(separators);
       for (final sizedBox in sizedBoxes) {
         expect(sizedBox.height, 8);
@@ -193,11 +180,10 @@ void main() {
   group('WeatherDailyList - Date formatting', () {
     testWidgets('Should format dates correctly using intl package',
         (tester) async {
-      // Create date test cases covering different days of the week
       final testDates = [
-        DateTime(2023, 1, 1), // Sunday
-        DateTime(2023, 1, 2), // Monday
-        DateTime(2023, 1, 7), // Saturday
+        DateTime(2023, 1, 1),
+        DateTime(2023, 1, 2),
+        DateTime(2023, 1, 7),
       ];
 
       final dateFormattedData = testDates
@@ -218,7 +204,6 @@ void main() {
           ));
       await tester.pumpAndSettle();
 
-      // Check that the dates are formatted correctly
       for (final date in testDates) {
         final formattedDate = DateFormat('EEEE').format(date);
         expect(find.text(formattedDate), findsOneWidget);
