@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_app/core/theme/theme_extensions.dart';
 import 'package:flutter_web_app/features/weather/domain/entities/entities.dart';
-import 'package:flutter_web_app/features/weather/presentation/widgets/custom_colors.dart';
 
 class WeatherForecastChart extends StatefulWidget {
   const WeatherForecastChart({
@@ -169,7 +168,7 @@ class _WeatherForecastChartState extends State<WeatherForecastChart>
                               getDotPainter: (spot, percent, barData, index) {
                                 return FlDotCirclePainter(
                                   radius: 4,
-                                  color: CustomColors.primary,
+                                  color: context.colors.primary,
                                   strokeWidth: 0,
                                 );
                               },
