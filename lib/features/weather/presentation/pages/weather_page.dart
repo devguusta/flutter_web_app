@@ -108,6 +108,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           layoutSize: LayoutSize.mobile,
                           child: CustomScrollView(
                             slivers: [
+                              WeatherAppBar(),
                               WeatherDailyList(
                                 daily: weatherReport.daily,
                               )
@@ -118,6 +119,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           slivers: [
                             SliverCrossAxisGroup(
                               slivers: [
+                                WeatherAppBar(),
                                 nowBlock,
                                 WeatherForecastChart(
                                   forecast:

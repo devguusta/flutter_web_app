@@ -121,7 +121,10 @@ void main() {
           size: const Size(400, 800),
         ));
       });
-
+      expect(
+        find.byType(WeatherAppBar),
+        findsOneWidget,
+      );
       expect(
           find.descendant(
               of: find.byType(CustomScrollView),
@@ -171,6 +174,10 @@ void main() {
       );
       expect(
         find.byWidgetPredicate((widget) => widget is WeatherForecastChart),
+        findsOneWidget,
+      );
+      expect(
+        find.byType(WeatherAppBar),
         findsOneWidget,
       );
     });
