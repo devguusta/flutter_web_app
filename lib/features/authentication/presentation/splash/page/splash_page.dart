@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
 
       Future.delayed(const Duration(milliseconds: 1200), () {
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.popAndPushNamed(context, '/login');
       });
     });
   }
