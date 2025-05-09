@@ -49,8 +49,8 @@ class WeatherCubit extends Cubit<WeatherState> {
       } else {
         emit(WeatherLocationFailure(error: e));
       }
-      rethrow;
     }
+    return null;
   }
 
   Future<AddressEntity> _getAddress({required LocationEntity location}) =>
