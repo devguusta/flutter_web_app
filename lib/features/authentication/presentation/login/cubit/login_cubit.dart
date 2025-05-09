@@ -3,6 +3,7 @@ import 'package:flutter_web_app/core/validators/common_validators.dart';
 import 'package:flutter_web_app/features/authentication/domain/repository/authentication_repository.dart';
 import 'package:flutter_web_app/features/authentication/presentation/login/cubit/login_state.dart';
 
+/// The LoginCubit class is responsible for managing the state of the login process.
 class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authenticationRepository;
   LoginCubit(this._authenticationRepository) : super(const LoginInitialState());

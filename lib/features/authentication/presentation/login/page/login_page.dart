@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        automaticallyImplyLeading: false,
       ),
       body: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
           if (state is LoginSuccessState) {
-            Navigator.pushReplacementNamed(context, Routes.home);
+            Navigator.popAndPushNamed(context, Routes.home);
           }
         },
         child: Form(
