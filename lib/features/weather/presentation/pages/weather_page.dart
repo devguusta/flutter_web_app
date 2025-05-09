@@ -9,8 +9,10 @@ import 'package:flutter_web_app/features/weather/presentation/cubit/weather_cubi
 import 'package:flutter_web_app/features/weather/presentation/cubit/weather_state.dart';
 import 'package:flutter_web_app/features/weather/presentation/utils/location_error_title.dart';
 import 'package:flutter_web_app/features/weather/presentation/widgets/components/current_weather.dart';
+import 'package:flutter_web_app/features/weather/presentation/widgets/components/weather_appbar.dart';
 import 'package:flutter_web_app/features/weather/presentation/widgets/components/weather_daily.dart';
 import 'package:flutter_web_app/features/weather/presentation/widgets/components/weather_daily_forecast.dart';
+import 'package:flutter_web_app/features/weather/presentation/widgets/components/weather_forecast_chart.dart';
 import 'package:flutter_web_app/features/weather/presentation/widgets/dialogs/location_erros_dialog.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -22,7 +24,7 @@ class WeatherPage extends StatefulWidget {
 
 class _WeatherPageState extends State<WeatherPage> {
   void _listener(BuildContext context, WeatherState state) {
-    if (state is WeatherLocationFailure) {
+    if (state is WeatherLocationFailureState) {
       LocationErrorsDialog.show(context: context, exception: state.error);
     }
   }
@@ -40,16 +42,13 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Open Weather APP'),
-      ),
       body: BlocConsumer<WeatherCubit, WeatherState>(
         listener: _listener,
         builder: (context, state) {
           return switch (state) {
-            WeatherLoading() =>
+            WeatherLoadingState() =>
               Center(child: CircularProgressIndicator.adaptive()),
-            WeatherLocationFailure(:final LocationException error) =>
+            WeatherLocationFailureState(:final LocationException error) =>
               CustomConstrainedBox(
                 layoutSize: LayoutSize.mobile,
                 child: Center(
@@ -69,23 +68,26 @@ class _WeatherPageState extends State<WeatherPage> {
                   ),
                 ),
               ),
-            WeatherFailure() => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('An error have ocurred. Please Try again'),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    CustonPrimaryButton(
-                      onPressed: _onTryAgain,
-                      title: 'Try again',
-                    )
-                  ],
+            WeatherFailureState() => CustomConstrainedBox(
+                layoutSize: LayoutSize.mobile,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('An error have ocurred. Please Try again'),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      CustonPrimaryButton(
+                        onPressed: _onTryAgain,
+                        title: 'Try again',
+                      )
+                    ],
+                  ),
                 ),
               ),
-            WeatherLoaded(
+            WeatherLoadedState(
               :final WeatherStatusReportEntity weatherReport,
               :final AddressEntity address
             ) =>
@@ -114,11 +116,13 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       LayoutSize.tablet => CustomScrollView(
                           slivers: [
-                            //     const SliverWeatherAppBar(),
                             SliverCrossAxisGroup(
                               slivers: [
                                 nowBlock,
-                                //   hourlyForecastBlock,
+                                WeatherForecastChart(
+                                  forecast:
+                                      weatherReport.hourly.take(24).toList(),
+                                ),
                               ],
                             ),
                             dailyForecastBlock,
@@ -128,20 +132,24 @@ class _WeatherPageState extends State<WeatherPage> {
                           layoutSize: LayoutSize.desktop,
                           child: CustomScrollView(
                             slivers: [
-                              // const SliverWeatherAppBar(),
+                              WeatherAppBar(),
                               SliverCrossAxisGroup(
                                 slivers: [
                                   SliverCrossAxisExpanded(
                                     flex: 1,
                                     sliver: nowBlock,
                                   ),
-                                  // SliverCrossAxisExpanded(
-                                  //   flex: 2,
-                                  //   sliver: SliverPadding(
-                                  //     padding: const EdgeInsets.only(right: 32),
-                                  //     sliver: hourlyForecastBlock,
-                                  //   ),
-                                  // ),
+                                  SliverCrossAxisExpanded(
+                                    flex: 2,
+                                    sliver: SliverPadding(
+                                      padding: const EdgeInsets.only(right: 32),
+                                      sliver: WeatherForecastChart(
+                                        forecast: weatherReport.hourly
+                                            .take(24)
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ),
                                   SliverCrossAxisExpanded(
                                     flex: 1,
                                     sliver: dailyForecastBlock,
@@ -155,7 +163,9 @@ class _WeatherPageState extends State<WeatherPage> {
                   },
                 ),
               ),
-            _ => SizedBox.shrink(),
+            _ => SizedBox.shrink(
+                key: Key('weather_page'),
+              ),
           };
         },
       ),

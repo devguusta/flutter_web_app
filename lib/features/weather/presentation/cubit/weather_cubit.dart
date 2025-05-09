@@ -14,24 +14,24 @@ class WeatherCubit extends Cubit<WeatherState> {
     required this.weatherRepository,
     required this.locationRepository,
     required this.addressRepository,
-  }) : super(const WeatherLoading());
+  }) : super(const WeatherInitialState());
 
   final WeatherRepository weatherRepository;
   final LocationRepository locationRepository;
   final AddressRepository addressRepository;
 
   Future<void> getWeather() async {
-    emit(const WeatherLoading());
+    emit(const WeatherLoadingState());
     final location = await _getLocation();
     try {
       if (location == null) return;
       final address = await _getAddress(location: location);
       final weather = await _getWeatherStatusReport(location: location);
-      emit(WeatherLoaded(weatherReport: weather, address: address));
+      emit(WeatherLoadedState(weatherReport: weather, address: address));
     } on LocationException {
       return;
     } catch (_) {
-      emit(WeatherFailure());
+      emit(WeatherFailureState());
     }
   }
 
@@ -41,13 +41,13 @@ class WeatherCubit extends Cubit<WeatherState> {
       return result;
     } on LocationException catch (e) {
       if (e is GpsDisabledException) {
-        emit(WeatherLocationFailure(error: e));
+        emit(WeatherLocationFailureState(error: e));
       } else if (e is LocationPermissionDeniedException) {
-        emit(WeatherLocationFailure(error: e));
+        emit(WeatherLocationFailureState(error: e));
       } else if (e is LocationPermitionDenieForeverException) {
-        emit(WeatherLocationFailure(error: e));
+        emit(WeatherLocationFailureState(error: e));
       } else {
-        emit(WeatherLocationFailure(error: e));
+        emit(WeatherLocationFailureState(error: e));
       }
     }
     return null;
