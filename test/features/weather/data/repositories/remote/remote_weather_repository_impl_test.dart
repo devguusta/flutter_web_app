@@ -26,7 +26,6 @@ void main() {
     'units': 'metric'
   };
 
-  /// Define expected entities based on the mock data
   final current = WeatherDataEntity(
     temperature: 292.55,
     pressure: 1014,
