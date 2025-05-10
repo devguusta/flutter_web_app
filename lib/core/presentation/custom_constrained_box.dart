@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_app/core/presentation/layout_break_builder.dart';
+import 'package:flutter_web_app/core/presentation/layout_size_builder.dart';
 
 /// A widget that constrains its child to a specific layout size.
 /// It uses the [LayoutSize] class to determine the minimum width of the child.

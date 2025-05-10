@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_app/core/presentation/button/custom_button.dart';
 import 'package:flutter_web_app/core/presentation/custom_constrained_box.dart';
-import 'package:flutter_web_app/core/presentation/layout_break_builder.dart';
+import 'package:flutter_web_app/core/presentation/layout_size_builder.dart';
 import 'package:flutter_web_app/features/weather/domain/entities/entities.dart';
 import 'package:flutter_web_app/features/weather/domain/exceptions/location_exceptions.dart';
 import 'package:flutter_web_app/features/weather/presentation/cubit/weather_cubit.dart';

@@ -5,15 +5,23 @@ import 'package:flutter_web_app/features/weather/presentation/widgets/icons/icon
 import 'package:flutter_web_app/features/weather/presentation/widgets/icons/weather_icon.dart';
 import 'package:flutter_web_app/features/weather/presentation/widgets/icons/wind_icon.dart';
 
+/// A widget that displays the current weather conditions.
+///
+/// This widget shows a summary of current weather conditions including
+/// temperature, weather icon, location (if available), and details like
+/// humidity, pressure, and wind.
 class CurrentWeather extends StatelessWidget {
+  /// Current weather data to display
+  final WeatherDataEntity current;
+
+  /// Location address to display (optional)
+  final AddressEntity? address;
+
   const CurrentWeather({
     required this.current,
     this.address,
     super.key,
   });
-
-  final WeatherDataEntity current;
-  final AddressEntity? address;
 
   @override
   Widget build(BuildContext context) {

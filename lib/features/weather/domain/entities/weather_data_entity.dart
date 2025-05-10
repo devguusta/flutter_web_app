@@ -2,9 +2,30 @@ import 'package:equatable/equatable.dart';
 
 import 'weather.dart';
 
-/// This class represents the weather data entity, which contains the current weather data.
-/// It includes temperature, pressure, humidity, wind speed, wind direction, and weather condition.
+/// Represents weather data for a specific point in time.
+///
+/// This entity contains comprehensive weather information for either
+/// the current conditions or a specific hour in the hourly forecast.
 class WeatherDataEntity extends Equatable {
+  /// Temperature in Celsius
+  final double temperature;
+
+  /// Atmospheric pressure in hPa (hectopascal)
+  final int pressure;
+
+  /// Relative humidity percentage (0-100)
+  final int humidity;
+
+  /// Wind speed in meters per second
+  final double windSpeed;
+
+  /// Wind direction in degrees (meteorological)
+  /// 0° indicates wind from north, 90° from east, etc.
+  final double windDegrees;
+
+  /// General weather condition
+  final Weather weather;
+
   const WeatherDataEntity({
     required this.temperature,
     required this.pressure,
@@ -13,13 +34,6 @@ class WeatherDataEntity extends Equatable {
     required this.windDegrees,
     required this.weather,
   });
-
-  final double temperature;
-  final int pressure;
-  final int humidity;
-  final double windSpeed;
-  final double windDegrees;
-  final Weather weather;
 
   @override
   List<Object?> get props => [

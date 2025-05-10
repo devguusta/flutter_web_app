@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_app/core/presentation/button/custom_button.dart';
 import 'package:flutter_web_app/core/presentation/custom_constrained_box.dart';
 import 'package:flutter_web_app/core/presentation/form_field/custom_text_field.dart';
-import 'package:flutter_web_app/core/presentation/layout_break_builder.dart';
+import 'package:flutter_web_app/core/presentation/layout_size_builder.dart';
 import 'package:flutter_web_app/core/routes/routes.dart';
 import 'package:flutter_web_app/core/validators/input_validators.dart';
 import 'package:flutter_web_app/features/authentication/presentation/login/cubit/login_cubit.dart';

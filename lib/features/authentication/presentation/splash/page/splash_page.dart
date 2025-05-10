@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_app/core/constants/assets_constants.dart';
 import 'package:flutter_web_app/core/presentation/custom_constrained_box.dart';
-import 'package:flutter_web_app/core/presentation/layout_break_builder.dart';
+import 'package:flutter_web_app/core/presentation/layout_size_builder.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
